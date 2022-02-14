@@ -1,0 +1,202 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/design.css" />
+	</head>
+	<body>
+		<div class="header" id="header">
+			<div class="menu" id="menu">
+				<p>
+					<ul id="menu-items" style="display: none;">
+						<li><a class="page-lnk" id="home-lnk" href="#">Home</a></li>
+						<li><a class="page-lnk" id="profile-lnk" href="#">My profile</a></li>
+						<li><a class="page-lnk" id="users-lnk" href="#">Users</a></li>
+						<li><a class="page-lnk" id="conversations-lnk" href="#">Conversations</a></li>
+						<li><a id="logout-lnk" href="#">Logout</a></li><!--there is no logout page so no class definition needed-->
+					</ul>
+				</p>
+			</div>
+			<div class="banner" id="banner">
+				<p>
+					<b>Beware of scammers and social engineers! Never give your personal data, password or creditcard information to strangers!!! 
+					Be suspicious of incomplete, controversial or fictitious profiles.</b>
+				</p>
+			</div>
+		</div>
+		<div id="pages-container">
+			<div class="pages" id="welcome-page">
+				<h3>Welcome on the chat app site!</h3>
+				<h4>Meet new people! Get Friends! Have Fun!</h4>
+				<p>
+					<a class="page-lnk" id="signup-lnk" href="#">Sign Up</a>&nbsp;&nbsp;
+					<a class="page-lnk" id="login-lnk" href="#">Login</a>
+				</p>
+			</div>
+			<div class="pages" id="signup-page" style="display: none;">
+				<h3>Signup page</h3>
+				<p>Give us some information, and you can immediately start chating we others.</p>
+				<form method="post" action="#" id="signup-form">
+					<p>
+						Login name *:<input type="text" id="logname" name="logname" /><br/>
+						Password *:<input type="password" id="pass" name="pass" /><br/>
+						Password again *:<input type="password" id="pass2" name="pass2" /><br/>
+						Alias *:<input type="text" id="alias" name="alias" /><br/>
+						Age *:<input type="text" id="age" name="age" /><br/>
+						Gender *:<input type="text" id="gender" name="gender" /><br/>
+						Intro:<input type="text" id="intro" name="intro" /><br/>
+					</p>
+					<p>
+						<!--dynamically created-->
+						<span id="signup-error-msg"></span>
+					</p>
+					<p>
+						<a id="signup-post-lnk" href="#">Sign Up</a>
+						<a class="page-lnk" id="welcome-lnk" href="#">Back to welcome page</a>
+					</p>
+				</form>
+			</div>
+			<div class="pages" id="login-page" style="display: none;">
+				<h3>login</h3>
+				<p>Type your login name and password quickly and start to meet new people :) </p>
+				<form method="post" action="#" id="login-form">
+					<p>
+						Login name:<input type="text" id="logname" name="logname" value="mark"/><br/>
+						Password:<input type="password" id="pass" name="pass" value="Password1"/><br/>
+					</p>
+					<p>
+					</p>
+					<p>
+						<a id="login-post-lnk" href="#">Login</a>
+						<a class="page-lnk" id="welcome-lnk2" href="#">Back to welcome page</a>
+					</p>
+				</form>
+			</div>
+			<div class="pages" id="home-page" style="display: none;">
+				<h3>home</h3>
+			</div>
+			<div class="pages" id="profile-page" style="display: none;">
+				<h3>My profile</h3>
+				<p>A good profile page makes bigger chances to get a positive impression on others.</p>
+				<form method="post" action="#" id="account-form">
+					<p>
+						<fieldset disabled="disabled">
+							Alias:<input type="text" id="alias" name="alias" /><br/>
+							Age:<input type="text" id="age" name="age" /><br/>
+							Gender:<input type="text" id="gender" name="gender" /><br/>
+							Intro:<input type="text" id="intro" name="intro" /><br/>
+						</fieldset>
+					</p>
+					<p>
+						<a id="edit-profile-lnk" href="#">Edit profile data</a>&nbsp;
+						<a id="save-profile-lnk" href="#" style="display: none;">Save</a><br />
+						<a id="delete-profile-lnk" href="#">Delete profile</a>
+					</p>
+				</form>
+			</div>
+			<div class="pages" id="users-page" style="display: none;">
+				<h3>users</h3>
+				<div id="user-list">
+					<p>
+						<ul>
+						</ul>
+					</p>
+				</div>
+				<div id="user-details">
+					<p>
+					</p>
+				</div>
+			</div>
+			<div class="pages" id="conversations-page" style="display: none;">
+				<h3>conversations</h3>
+				<div id="conversation-list">
+					<p>
+						<ul>
+						</ul>
+					</p>
+				</div>
+				<div id="conversation-panel">
+					<p id="messages-panel">
+					</p>
+					<p>
+						<form>
+							<input type="hidden" id="new-message-receiver_id" name="receiver_id" value="" />
+							New message: <input type="text" id="new-message-text"/>
+							<a id="send-new-msg-lnk" href="#">Send</a>
+						</form>
+					</p>
+				</div>
+			</div>
+		</div>
+		<script src="js/main.js"></script>
+		<script>
+			$(window).on("load", function(){
+				//init storage variables
+				window.sessionStorage.setItem("isAuthenticated", false);
+				
+				//load_page events
+				$(".page-lnk").click(function(){
+					load_page($(this).attr("id").replace("lnk", "page").replace(/[0-9]/g, ""));
+				});
+				$("#profile-lnk").click(function(){
+					get_profile_data();
+				});
+				$("#users-lnk").click(function(){
+					get_user_list();
+				});
+				$("#conversations-lnk").click(function(){
+					get_conversation_list();
+				});
+				$("#edit-profile-lnk").click(function(){
+					$("#save-profile-lnk").show();
+					$("#profile-page fieldset").removeAttr("disabled");
+				});
+				$("#save-profile-lnk").click(function(){
+					edit_profile();
+				});
+				$("#delete-profile-lnk").click(function(){
+					delete_profile();
+				});
+				$("#send-new-msg-lnk").click(function(){
+					send_new_msg();
+				});
+				
+				//events related to backend requests
+				$("#login-post-lnk").click(function(){
+					login();
+				});
+				$("#signup-post-lnk").click(function(){
+					signup();
+				});
+				$("#logout-lnk").click(function(){
+					logout();
+				});
+			});
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
