@@ -10,6 +10,7 @@ Architecture
   * Loosely coupled classes, reusable code
 
 
+
 Business functionalities
   * Registration, authentication
   * View and edit personal profile
@@ -19,11 +20,14 @@ Business functionalities
   * Delete personal data
 
 
+
 Security efforts
   * Sql injection protection with php prepared statements
   * Low privileged mysql account
   * Minimalist error messages
   * SHA512 password hashes
+
+
 
 Future plans
   * CSRF and XSS protection with CSRF tokens and HTTP Security headers
