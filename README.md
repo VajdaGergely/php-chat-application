@@ -1,5 +1,5 @@
 # php-chat-application
-Php chat application (under development)
+Php chat application (interrupted project)
 
 Web chat application with PHP, MySQL, Javascript, jQuery, bootstrap, HTML
 
